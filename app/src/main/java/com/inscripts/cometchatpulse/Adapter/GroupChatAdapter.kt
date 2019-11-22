@@ -362,7 +362,7 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
 
             StringContract.ViewType.RIGHT_LOCATION_MESSAGE -> {
                 val rightLocationViewHolder = p0 as RightLocationViewHolder
-                rightLocationViewHolder.binding.message = baseMessage as TextMessage
+                rightLocationViewHolder.binding.message = baseMessage as CustomMessage
                 rightLocationViewHolder.binding.timestamp.typeface = StringContract.Font.status
                 rightLocationViewHolder.bindView(p1, messagesList)
                 setStatusIcon(rightLocationViewHolder.binding.imgMessageStatus,baseMessage)
@@ -370,7 +370,7 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
 
             StringContract.ViewType.LEFT_LOCATION_MESSAGE -> {
                 val leftLocationViewHolder = p0 as LeftLocationViewHolder
-                leftLocationViewHolder.binding.message = baseMessage as TextMessage
+                leftLocationViewHolder.binding.message = baseMessage as CustomMessage
                 leftLocationViewHolder.binding.timestamp.typeface = StringContract.Font.status
                 leftLocationViewHolder.bindView(p1, messagesList)
 
@@ -1330,13 +1330,6 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
 
                         CometChatConstants.MESSAGE_TYPE_TEXT -> {
 
-                            if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text!=null) {
-
-                                if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text.equals("custom_location")) {
-                                    return StringContract.ViewType.RIGHT_LOCATION_MESSAGE
-                                }
-                            }
-
                             return StringContract.ViewType.RIGHT_TEXT_MESSAGE
                         }
 
@@ -1380,14 +1373,6 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
 
                         CometChatConstants.MESSAGE_TYPE_TEXT -> {
 
-                            if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text!=null){
-
-                                if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text.equals("custom_location")) {
-
-                                    return StringContract.ViewType.LEFT_LOCATION_MESSAGE
-                                }
-                            }
-
                             return StringContract.ViewType.LEFT_TEXT_MESSAGE
                         }
 
@@ -1415,7 +1400,34 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
                     }
                 }
             }
-        }else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_ACTION, ignoreCase = true)) {
+        }
+        else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_CUSTOM, ignoreCase = true))
+        {
+            if (ownerId.equals(messagesList.get(messagesList.keyAt(position))?.sender?.uid, ignoreCase = true)) {
+                if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type != null) {
+
+                    if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type.equals("LOCATION")) {
+                        return StringContract.ViewType.RIGHT_LOCATION_MESSAGE
+                    } else {
+                        return StringContract.ViewType.RIGHT_CUSTOM_MESSAGE
+                    }
+                }
+            }
+            else
+            {
+                if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type != null) {
+
+                    if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type.equals("LOCATION")) {
+                        return StringContract.ViewType.LEFT_LOCATION_MESSAGE
+                    }
+                    else
+                    {
+                        return StringContract.ViewType.LEFT_CUSTOM_MESSAGE
+                    }
+                }
+            }
+        }
+        else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_ACTION, ignoreCase = true)) {
             return StringContract.ViewType.ACTION_MESSAGE
         }
         else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_CALL, ignoreCase = true)) {
@@ -1438,16 +1450,19 @@ class GroupChatAdapter(val context: Context, val guid: String, val ownerId: Stri
     private fun setStatusIcon(circleImageView: CircleImageView, baseMessage: BaseMessage) {
 
         if (baseMessage.readAt != 0L) {
+            Log.e("Read",""+baseMessage.readAt)
             val drawable=ContextCompat.getDrawable(context,R.drawable.ic_double_tick_blue);
             drawable?.setColorFilter(StringContract.Color.primaryColor,PorterDuff.Mode.SRC_ATOP)
             circleImageView.setImageDrawable(drawable)
             circleImageView.circleBackgroundColor = context.resources.getColor(android.R.color.transparent)
         }
         else if (baseMessage.deliveredAt != 0L) {
+            Log.e("Delivered",""+baseMessage.readAt)
             circleImageView.setImageResource(R.drawable.ic_double_tick)
             circleImageView.circleBackgroundColor = StringContract.Color.primaryColor
         }
         else{
+            Log.e("No Delivered",""+baseMessage.readAt)
             circleImageView.setImageResource(R.drawable.ic_check_24dp)
             circleImageView.circleBackgroundColor = StringContract.Color.primaryColor
         }

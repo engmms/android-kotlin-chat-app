@@ -70,7 +70,6 @@ class MessageRepository {
 
     @WorkerThread
     fun fetchMessage(LIMIT: Int, userId: String,isRefresh:Boolean) {
-
         try {
               if (isRefresh){
                   messageRequest= null
@@ -90,10 +89,10 @@ class MessageRepository {
 
         messagesRequest?.fetchPrevious(object : CometChat.CallbackListener<List<BaseMessage>>() {
             override fun onSuccess(p0: List<BaseMessage>?) {
-
+                Log.e(TAG,"FETCH MESSAGE")
                 if (p0 != null) {
                     for (baseMessage: BaseMessage in p0) {
-                        Log.d(TAG, "baseMessage onSuccess: " + baseMessage.id)
+                        Log.d(TAG, "baseMessage onSuccess: " + baseMessage)
                         if (baseMessage.category != CometChatConstants.CATEGORY_ACTION && baseMessage.deletedAt == 0L) {
                             mutableOneToOneMessageList.add(baseMessage)
                         }
@@ -174,11 +173,6 @@ class MessageRepository {
                         mutableGroupMessageList.add(p0)
                         groupMessageList.value = mutableGroupMessageList
 
-                    }
-
-                    if (context != null) {
-                        if (context is LocationActivity)
-                            context.finish()
                     }
                 }
 
@@ -376,6 +370,37 @@ class MessageRepository {
         })
     }
 
+    @WorkerThread
+    fun sendCustomMessage(customMessage: CustomMessage, context: Context?) {
+
+        CometChat.sendCustomMessage(customMessage, object : CometChat.CallbackListener<CustomMessage>() {
+            override fun onSuccess(p0: CustomMessage?) {
+
+                if (p0 != null) {
+                    if (p0.receiverType.equals(CometChatConstants.RECEIVER_TYPE_USER)) {
+                        mutableOneToOneMessageList.add(p0)
+                        onetoOneMessageList.value = mutableOneToOneMessageList
+                    } else {
+                        mutableGroupMessageList.add(p0)
+                        groupMessageList.value = mutableGroupMessageList
+                    }
+                    if (context != null) {
+                        if (context is LocationActivity)
+                            context.finish()
+                    }
+
+                }
+                Toast.makeText(CometChatPro.applicationContext(), "Custom Message Sent Successfully", Toast.LENGTH_SHORT).show()
+                Log.d("CustomMessage", p0!!.category+"\n"+p0.type+"\n"+p0.toString())
+            }
+
+            override fun onError(p0: CometChatException?) {
+                Toast.makeText(CometChatPro.applicationContext(), p0?.message, Toast.LENGTH_SHORT).show()
+                p0?.printStackTrace()
+            }
+
+        })
+    }
 
     fun removeGroupListener(group_event_listener: String) {
         CometChat.removeGroupListener(group_event_listener)

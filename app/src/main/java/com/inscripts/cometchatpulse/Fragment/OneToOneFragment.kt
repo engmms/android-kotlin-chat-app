@@ -35,9 +35,9 @@ import com.cometchat.pro.constants.CometChatConstants
 import com.cometchat.pro.core.Call
 import com.cometchat.pro.core.CometChat
 import com.cometchat.pro.helpers.Logger
-import com.cometchat.pro.models.MediaMessage
-import com.cometchat.pro.models.TextMessage
-import com.cometchat.pro.models.User
+import com.cometchat.pro.models.*
+import com.inscripts.cometchatpulse.Activities.ChatActivity
+import com.inscripts.cometchatpulse.Activities.GroupMessageInfoActivity
 import com.inscripts.cometchatpulse.Activities.LocationActivity
 import com.inscripts.cometchatpulse.Activities.UserProfileViewActivity
 import com.inscripts.cometchatpulse.Adapter.OneToOneAdapter
@@ -59,6 +59,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import org.json.JSONObject
+import org.w3c.dom.Text
 import java.io.File
 import java.io.IOException
 import java.util.*
@@ -200,7 +201,6 @@ class OneToOneFragment : Fragment(), View.OnClickListener, RecordListener, Actio
         binding.recycler.setRecyclerListener(RecycleListenerHelper())
         oneToOneAdapter.setHasStableIds(true)
         binding.recycler.adapter = oneToOneAdapter
-
 
         (activity as AppCompatActivity).setSupportActionBar(binding.cometchatToolbar)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -460,7 +460,6 @@ class OneToOneFragment : Fragment(), View.OnClickListener, RecordListener, Actio
                 }
             }
 
-
         }
 
         return true
@@ -651,6 +650,7 @@ class OneToOneFragment : Fragment(), View.OnClickListener, RecordListener, Actio
         }
         return true
     }
+
 
 
     override fun onClick(p0: View?) {
@@ -982,6 +982,7 @@ class OneToOneFragment : Fragment(), View.OnClickListener, RecordListener, Actio
         super.onDestroy()
         currentId = null
         timer = null
+        activity?.finish()
     }
 
 

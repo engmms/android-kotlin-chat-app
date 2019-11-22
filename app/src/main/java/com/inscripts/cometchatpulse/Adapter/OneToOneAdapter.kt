@@ -83,6 +83,16 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
 
         when (p1) {
 
+            StringContract.ViewType.RIGHT_CUSTOM_MESSAGE -> {
+                val binding: RightTextBinding = DataBindingUtil.inflate(layoutInflater, R.layout.right_text, p0, false)
+                return RightTextMessageHolder(binding)
+            }
+
+            StringContract.ViewType.LEFT_CUSTOM_MESSAGE -> {
+                val binding: LeftTextBinding = DataBindingUtil.inflate(layoutInflater, R.layout.left_text, p0, false)
+                return LeftTextMessageHolder(binding)
+            }
+
             StringContract.ViewType.RIGHT_TEXT_MESSAGE -> {
                 val binding: RightTextBinding = DataBindingUtil.inflate(layoutInflater, R.layout.right_text, p0, false)
                 return RightTextMessageHolder(binding)
@@ -249,13 +259,6 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
 
                         CometChatConstants.MESSAGE_TYPE_TEXT -> {
 
-                            if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text!=null) {
-
-                                if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text.equals("custom_location")) {
-                                    return StringContract.ViewType.RIGHT_LOCATION_MESSAGE
-                                }
-                            }
-
                             return StringContract.ViewType.RIGHT_TEXT_MESSAGE
                         }
 
@@ -299,14 +302,6 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
 
                         CometChatConstants.MESSAGE_TYPE_TEXT -> {
 
-                               if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text!=null){
-
-                                if ((messagesList.get(messagesList.keyAt(position)) as TextMessage).text.equals("custom_location")) {
-
-                                    return StringContract.ViewType.LEFT_LOCATION_MESSAGE
-                                }
-                            }
-
                             return StringContract.ViewType.LEFT_TEXT_MESSAGE
                         }
 
@@ -336,6 +331,31 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
             }
         } else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_CALL, ignoreCase = true)) {
             return StringContract.ViewType.CALL_MESSAGE
+        } else if (messagesList.get(messagesList.keyAt(position))?.category.equals(CometChatConstants.CATEGORY_CUSTOM, ignoreCase = true))
+        {
+            if (ownerId.equals(messagesList.get(messagesList.keyAt(position))?.sender?.uid, ignoreCase = true)) {
+                if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type != null) {
+
+                    if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type.equals("LOCATION")) {
+                        return StringContract.ViewType.RIGHT_LOCATION_MESSAGE
+                    } else {
+                        return StringContract.ViewType.RIGHT_CUSTOM_MESSAGE
+                    }
+                }
+            }
+            else
+            {
+                if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type != null) {
+
+                    if ((messagesList.get(messagesList.keyAt(position)) as CustomMessage).type.equals("LOCATION")) {
+                        return StringContract.ViewType.LEFT_LOCATION_MESSAGE
+                    }
+                    else
+                    {
+                        return StringContract.ViewType.LEFT_CUSTOM_MESSAGE
+                    }
+                }
+            }
         }
 
         return super.getItemViewType(position)
@@ -413,6 +433,17 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
         }
 
         when (p0.itemViewType) {
+            StringContract.ViewType.RIGHT_CUSTOM_MESSAGE ->
+            {
+                val rightCustomMessageHolder = p0 as RightTextMessageHolder
+                rightCustomMessageHolder.binding.tvMessage.text = "Custom Message"
+            }
+
+            StringContract.ViewType.LEFT_CUSTOM_MESSAGE ->
+            {
+                val leftCustomMessageHolder = p0 as LeftTextMessageHolder
+                leftCustomMessageHolder.binding.tvMessage.text = "Custom Message"
+            }
 
             StringContract.ViewType.RIGHT_TEXT_MESSAGE -> {
                 val rightTextMessageHolder = p0 as RightTextMessageHolder
@@ -980,7 +1011,7 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
 
             StringContract.ViewType.RIGHT_LOCATION_MESSAGE -> {
                 val rightLocationViewHolder = p0 as RightLocationViewHolder
-                rightLocationViewHolder.binding.message = baseMessage as TextMessage
+                rightLocationViewHolder.binding.message = baseMessage as CustomMessage
                 rightLocationViewHolder.binding.timestamp.typeface = StringContract.Font.status
                 rightLocationViewHolder.bindView(p1, messagesList)
                 setStatusIcon(rightLocationViewHolder.binding.imgMessageStatus, baseMessage)
@@ -988,7 +1019,7 @@ class OneToOneAdapter(val context: Context, val ownerId: String,
 
             StringContract.ViewType.LEFT_LOCATION_MESSAGE -> {
                 val leftLocationViewHolder = p0 as LeftLocationViewHolder
-                leftLocationViewHolder.binding.message = baseMessage as TextMessage
+                leftLocationViewHolder.binding.message = baseMessage as CustomMessage
                 leftLocationViewHolder.binding.timestamp.typeface = StringContract.Font.status
                 leftLocationViewHolder.bindView(p1, messagesList)
 

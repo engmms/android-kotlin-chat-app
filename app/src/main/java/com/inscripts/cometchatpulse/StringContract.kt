@@ -10,11 +10,11 @@ class StringContract {
 
         companion object {
 
-            const val APP_ID:String = "XXXXXXXXXXXXXX"
+            const val APP_ID:String = "XXXXXXXXXX"
 
-            const val API_KEY:String = "XXXXXXXXXXXXX"
+            const val API_KEY:String = "XXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
-            const val REGION:String = "XXXXX"
+            const val REGION:String = "XX"
 
             lateinit var theme:Appearance.AppTheme
 
@@ -24,6 +24,10 @@ class StringContract {
     class IntentString {
 
         companion object {
+
+            val CUSTOM_TYPE : String = "custom_type"
+
+            val MESSAGE : String = "message"
 
             val USER_ID: String = "user_id"
 
@@ -82,6 +86,9 @@ class StringContract {
     class ViewType {
 
         companion object {
+            const val  RIGHT_CUSTOM_MESSAGE = 934
+
+            const val LEFT_CUSTOM_MESSAGE = 1034
 
             const val  RIGHT_TEXT_MESSAGE = 334
 

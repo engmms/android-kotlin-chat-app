@@ -33,10 +33,7 @@ import com.cometchat.pro.exceptions.CometChatException
 import com.cometchat.pro.helpers.Logger
 import com.cometchat.pro.models.Group
 import com.cometchat.pro.models.User
-import com.inscripts.cometchatpulse.Fragment.ContactListFragment
-import com.inscripts.cometchatpulse.Fragment.GroupFragment
-import com.inscripts.cometchatpulse.Fragment.GroupListFragment
-import com.inscripts.cometchatpulse.Fragment.OneToOneFragment
+import com.inscripts.cometchatpulse.Fragment.*
 import com.inscripts.cometchatpulse.Helpers.*
 import com.inscripts.cometchatpulse.R
 import com.inscripts.cometchatpulse.Repository.GroupRepository
@@ -53,7 +50,7 @@ import kotlinx.android.synthetic.main.record_audio.*
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
         ChildClickListener, OnBackArrowClickListener, OnAlertDialogButtonClickListener,GroupRepository.onGroupJoin {
 
-    private var fragment : Fragment =ContactListFragment()
+    private var fragment : Fragment =RecentListFragment()
 
     private var twoPane: Boolean = false
 
@@ -82,7 +79,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         navigation.setOnNavigationItemSelectedListener(this)
 
         frame_container_detail
-        loadFragment(ContactListFragment())
+        loadFragment(RecentListFragment())
 
         groupViewModel = ViewModelProviders.of(this).get(GroupViewModel::class.java)
         groupChatViewModel = ViewModelProviders.of(this).get(GroupChatViewModel::class.java)
@@ -116,7 +113,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             toolbar_title.setTextColor(StringContract.Color.white)
         }
-        toolbar_title?.text = getString(R.string.contacts)
+        toolbar_title?.text = getString(R.string.conversations)
 
         if (frame_container_detail != null) {
             twoPane = true
@@ -415,16 +412,24 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         when (p0.itemId) {
 
-            R.id.menu_contacts -> {
+            R.id.menu_recents -> {
 
                 selectedPage=0
+                fragment = RecentListFragment()
+                toolbar_title?.text = getString(R.string.conversations)
+                position = R.id.menu_recents
+            }
+
+            R.id.menu_contacts -> {
+
+                selectedPage=1
                 fragment = ContactListFragment()
-                toolbar_title?.text = getString(R.string.contacts)
+                toolbar_title?.text = getString(R.string.users)
                 position = R.id.menu_contacts
             }
 
             R.id.menu_group -> {
-                selectedPage=1
+                selectedPage=2
                 fragment = GroupListFragment()
                 toolbar_title?.text = getString(R.string.groups)
                 position = R.id.menu_group

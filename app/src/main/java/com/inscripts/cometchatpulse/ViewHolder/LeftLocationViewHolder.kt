@@ -3,6 +3,7 @@ package com.inscripts.cometchatpulse.ViewHolder
 import androidx.collection.LongSparseArray
 import androidx.recyclerview.widget.RecyclerView
 import com.cometchat.pro.models.BaseMessage
+import com.cometchat.pro.models.CustomMessage
 import com.cometchat.pro.models.TextMessage
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -53,7 +54,7 @@ class LeftLocationViewHolder(val binding:LeftLocationBinding): androidx.recycler
         }
 
         // Add a marker for this item and set the camera
-        val metadata=(data as TextMessage).metadata
+        val metadata=(data as CustomMessage).metadata
         val lat=metadata.getString("lat").toDouble()
         val longt=metadata.getString("logt").toDouble()
 
