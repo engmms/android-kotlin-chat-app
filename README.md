@@ -10,7 +10,7 @@
 </br>
 </div>
 
-CometChat Android Demo app (built using **CometChat Pro**) is a fully functional messaging app capable of **one-on-one** (private) and **group** messaging. The app enables users to send **text** and **multimedia messages like audio, video, images, documents.**
+CometChat Android Demo app (built using **CometChat Pro**) is a fully functional messaging app capable of **one-on-one** (private) and **group** messaging along with recent conversations. The app enables users to send **text** and **multimedia messages like audio, video, images, documents.**
 
 [![Platform](https://img.shields.io/badge/Platform-Android-brightgreen.svg)](#)      [![Platform](https://img.shields.io/badge/Language-Kotlin-yellowgreen.svg)](#)
 
@@ -35,7 +35,7 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
 
 ## ScreenShots
 
- <img align="left" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/screenshots.png">
+ <img align="left" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/latest_screenshot.png">
 
 ## Installtion
 
@@ -154,7 +154,7 @@ To run our open source app with CometChat Pro v1, follow these steps:
     Go to Under java --> com\inscripts\cometchatpulse--> Utils--> Appearance
 
    <p align="center">
- <img align="center" width="708.5" height="680" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/gib.gif">
+ <img align="center" width="708.5" height="680" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/latest_gib.gif">
 </p>
 
 
