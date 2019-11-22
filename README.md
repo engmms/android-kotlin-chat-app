@@ -35,7 +35,7 @@ CometChat Android Demo app (built using **CometChat Pro**) is a fully functional
 
 ## ScreenShots
 
- <img align="left" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/latest_screenshot.png">
+ <img align="left" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/v2/ScreenShot/latest_screenshot.png">
 
 ## Installtion
 
@@ -131,7 +131,7 @@ To run our open source app with CometChat Pro v1, follow these steps:
 
 
 
-  ![Studio Guide](https://github.com/cometchat-pro-samples/android-kotlin-chat-app/blob/master/ScreenShot/help_k.png)
+  ![Studio Guide](https://github.com/cometchat-pro-samples/android-kotlin-chat-app/blob/v2/ScreenShot/help_k.png)
 
  ## Customizing the UI
 
@@ -154,7 +154,7 @@ To run our open source app with CometChat Pro v1, follow these steps:
     Go to Under java --> com\inscripts\cometchatpulse--> Utils--> Appearance
 
    <p align="center">
- <img align="center" width="708.5" height="680" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/master/ScreenShot/latest_gib.gif">
+ <img align="center" width="708.5" height="680" src="https://github.com/cometchat-pro/android-kotlin-chat-app/blob/v2/ScreenShot/latest_gib.gif">
 </p>
 
 
@@ -174,6 +174,6 @@ To run our open source app with CometChat Pro v1, follow these steps:
 
  To report an issue or bug please follow the template to create a github issue
  
- <a href="https://github.com/cometchat-pro-samples/android-kotlin-chat-app/blob/master/.github/ISSUE_TEMPLATE/bug_report.md">ISSUE TEMPLATE</a>
+ <a href="https://github.com/cometchat-pro-samples/android-kotlin-chat-app/blob/v2/.github/ISSUE_TEMPLATE/bug_report.md">ISSUE TEMPLATE</a>
  
    
